@@ -1,0 +1,9 @@
+.env.test.local
+.env/
+
+.pytest_cache/
+__pycache__/
+*.egg-info/
+.vscode/
+build/
+dist/
