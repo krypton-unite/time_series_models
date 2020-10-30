@@ -30,7 +30,8 @@ setup(
         'dev': [
             'bumpversion',
             'twine',
-            'wheel'
+            'wheel',
+            'autopep8'
         ]
     }
 )
