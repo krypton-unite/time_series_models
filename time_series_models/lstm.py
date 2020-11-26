@@ -21,10 +21,10 @@ class BenchmarkLSTM(nn.Module):
         Fully connected layer.
     """
 
-    def __init__(self, input_dim=1, hidden_dim=100, output_dim=1, num_layers=3, bidirectional=False, bias=True, dropout=0, **kwargs):
+    def __init__(self, input_dim=1, hidden_dim=100, output_dim=1, num_layers=3, bidirectional=False, bias=True, dropout=0, initial_forget_gate_bias = None, **kwargs):
         """Defines LSTM and Linear layers.
 
-        Parameters
+        Parametersa
         ----------
         input_dim: int, optional
             Input dimension. Default is 1. Will be set dinamically based on the data
@@ -45,6 +45,13 @@ class BenchmarkLSTM(nn.Module):
 
         self.lstm = nn.LSTM(input_dim, hidden_dim, num_layers=num_layers,
                             batch_first=True, bidirectional=bidirectional, bias=bias, dropout=dropout)
+        if initial_forget_gate_bias != None:
+            for names in self.lstm._all_weights:
+                for name in filter(lambda n: "bias" in n,  names):
+                    bias = getattr(self.lstm, name)
+                    n = bias.size(0)
+                    start, end = n//4, n//2
+                    bias.data[start:end].fill_(initial_forget_gate_bias)
         self.linear = nn.Linear(hidden_dim, output_dim)
 
     # pylint: disable=arguments-differ
