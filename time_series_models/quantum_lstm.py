@@ -6,54 +6,50 @@ import pennylane as qml
 class QuantumLSTM(nn.Module):
     def __init__(self, 
                 input_dim=1,
-                hidden_dim=4,
+                hidden_dim=12,
                 output_dim=1, 
                 num_layers=1,
-                batch_first=True,
-                return_sequences=False, 
-                return_state=False,
-                **kwargs):
-        super().__init__(**kwargs)
-        self.n_inputs = input_dim
+                batch_first=True):
+        super().__init__()
+        self.input_dim = input_dim
         self.output_dim = output_dim
-        self.concat_size = self.n_inputs + self.output_dim
         self.hidden_dim = hidden_dim
         self.num_layers = num_layers
-
         self.batch_first = batch_first
-        self.return_sequences = return_sequences
-        self.return_state = return_state
 
-        self.dev = qml.device("default.qubit", wires=self.hidden_dim)
+        self.clayer_in = torch.nn.Linear(input_dim + output_dim, hidden_dim)
+        self.VQC = self.getVQC()
+        self.clayer_out = torch.nn.Linear(hidden_dim, output_dim)
+        self.init_states = None
+        #self.clayer_out = [torch.nn.Linear(hidden_dim, self.output_dim) for _ in range(4)]
+
+    def getVQC(self):
+        dev = qml.device("default.qubit", wires=self.hidden_dim)
         def _circuit(inputs, weights):
             qml.templates.AngleEmbedding(inputs, wires=range(self.hidden_dim))
             qml.templates.BasicEntanglerLayers(weights, wires=range(self.hidden_dim))
             return [qml.expval(qml.PauliZ(wires=i)) for i in range(self.hidden_dim)]
-        self.qlayer = qml.QNode(_circuit, self.dev, interface="torch")
+        qlayer = qml.QNode(_circuit, dev, interface="torch")
 
-        weight_shapes = {"weights": (num_layers, hidden_dim)}
-        print(f"weight_shapes = (n_qlayers, n_qubits) = ({num_layers}, {hidden_dim})")
+        weight_shapes = {"weights": (self.num_layers, self.hidden_dim)}
+        print(f"weight_shapes = (n_qlayers, n_qubits) = ({self.num_layers}, {self.hidden_dim})")
+        return [qml.qnn.TorchLayer(qlayer, weight_shapes) for _ in range(4)]
 
-        self.clayer_in = torch.nn.Linear(self.concat_size, hidden_dim)
-        self.VQC = [qml.qnn.TorchLayer(self.qlayer, weight_shapes) for _ in range(4)]
-        self.clayer_out = torch.nn.Linear(self.hidden_dim, self.output_dim)
-        self.init_states = None
-        #self.clayer_out = [torch.nn.Linear(hidden_dim, self.output_dim) for _ in range(4)]
-
-    def forward(self, x):
+    def forward(self, input):
         '''
-        x.shape is (batch_size, seq_length, feature_size)
+        input.shape is (batch_size, seq_length, feature_size)
         recurrent_activation -> sigmoid
         activation -> tanh
         '''
         if self.batch_first is True:
-            batch_size, seq_length, features_size = x.size()
+            batch_size, seq_length, _ = input.size()
         else:
-            seq_length, batch_size, features_size = x.size()
+            seq_length, batch_size, _ = input.size()
 
         if self.init_states is None:
-            h_t = torch.zeros(batch_size, self.output_dim).to(x.device)  # hidden state (output)
-            c_t = torch.zeros(batch_size, self.output_dim).to(x.device)  # cell state
+            zeros = torch.zeros(batch_size, self.output_dim, device=input.device)
+            h_t = zeros # hidden state (output)
+            c_t = zeros # cell state
         else:
             # for now we ignore the fact that in PyTorch you can stack multiple RNNs
             # so we take only the first elements of the init_states tuple init_states[0][0], init_states[1][0]
@@ -66,7 +62,7 @@ class QuantumLSTM(nn.Module):
         hidden_seq = []
         for t in range(seq_length):
             # get features from the t-th element in seq, for all entries in the batch
-            x_t = x[:, t, :]
+            x_t = input[:, t, :]
             
             # Concatenate input and hidden state
             v_t = torch.cat((h_t, x_t), dim=1)
