@@ -24,7 +24,7 @@ class BenchmarkLSTM(nn.Module):
     def __init__(self, input_dim=1, hidden_dim=100, output_dim=1, num_layers=3, bidirectional=False, bias=True, dropout=0, initial_forget_gate_bias = None, **kwargs):
         """Defines LSTM and Linear layers.
 
-        Parametersa
+        Parameters
         ----------
         input_dim: int, optional
             Input dimension. Default is 1. Will be set dinamically based on the data

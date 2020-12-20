@@ -6,13 +6,24 @@
 #
 --find-links https://download.pytorch.org/whl/torch_stable.html
 
-dataclasses==0.6 \
-    --hash=sha256:454a69d788c7fda44efd71e259be79577822f5e3f53f029a22d08004e951dc9f \
-    --hash=sha256:6988bd2b895eef432d562370bb707d540f32f7360ab13da45340101bc2307d84 \
-    # via torch
+appdirs==1.4.4 \
+    --hash=sha256:7d5d0167b2b1ba821647616af46a749d1c653740dd0d2415100fe26e27afdf41 \
+    --hash=sha256:a841dacd6b99318a741b166adb07e19ee71a274450e68237b4650ca1055ab128 \
+    # via pennylane
+autograd==1.3 \
+    --hash=sha256:a15d147577e10de037de3740ca93bfa3b5a7cdfbc34cfb9105429c3580a33ec4 \
+    # via pennylane
+decorator==4.4.2 \
+    --hash=sha256:41fa54c2a0cc4ba648be4fd43cff00aedf5b9465c9bf18d64325bc225f08f760 \
+    --hash=sha256:e3a62f0520172440ca0dcc823749319382e377f37f140a0b99ef45fecb84bfe7 \
+    # via networkx
 future==0.18.2 \
     --hash=sha256:b1bead90b70cf6ec3f0710ae53a525360fa360d306a86583adc6bf83a4db537d \
-    # via torch
+    # via autograd
+networkx==2.5 \
+    --hash=sha256:7978955423fbc9639c10498878be59caf99b44dc304c2286162fd24b458c1602 \
+    --hash=sha256:8c5812e9f798d37c50570d15c4a69d5710a18d77bafc903ee9c5fba7454c616c \
+    # via pennylane
 numpy==1.19.0 \
     --hash=sha256:13af0184177469192d80db9bd02619f6fa8b922f9f327e077d6f2a6acb1ce1c0 \
     --hash=sha256:26a45798ca2a4e168d00de75d4a524abf5907949231512f372b217ede3429e98 \
@@ -40,9 +51,48 @@ numpy==1.19.0 \
     --hash=sha256:dd53d7c4a69e766e4900f29db5872f5824a06827d594427cf1a4aa542818b796 \
     --hash=sha256:df1889701e2dfd8ba4dc9b1a010f0a60950077fb5242bb92c8b5c7f1a6f2668a \
     --hash=sha256:fa1fe75b4a9e18b66ae7f0b122543c42debcf800aaafa0212aaff3ad273c2596 \
-    # via time-series-models (setup.py), torch
-torch==1.7.0+cu110 \
-    --hash=sha256:a65442a40de44dc33d59015cdd62d8453b657147496cd52d0d098ab4a4f42f00 \
+    # via autograd, pennylane, scipy, time-series-models (setup.py), torch
+pennylane==0.13.0 \
+    --hash=sha256:15cddfa17efaa3ef8be7ec48cc22b1c6353956152b17e35b57dd6ea77aaf18e7 \
+    --hash=sha256:a0eccb164c9e4ac7bd476b867d5d0c2921e1816397d4b66b0053a1ae56ae55ec \
+    # via time-series-models (setup.py)
+scipy==1.5.4 \
+    --hash=sha256:168c45c0c32e23f613db7c9e4e780bc61982d71dcd406ead746c7c7c2f2004ce \
+    --hash=sha256:213bc59191da2f479984ad4ec39406bf949a99aba70e9237b916ce7547b6ef42 \
+    --hash=sha256:25b241034215247481f53355e05f9e25462682b13bd9191359075682adcd9554 \
+    --hash=sha256:2c872de0c69ed20fb1a9b9cf6f77298b04a26f0b8720a5457be08be254366c6e \
+    --hash=sha256:3397c129b479846d7eaa18f999369a24322d008fac0782e7828fa567358c36ce \
+    --hash=sha256:368c0f69f93186309e1b4beb8e26d51dd6f5010b79264c0f1e9ca00cd92ea8c9 \
+    --hash=sha256:3d5db5d815370c28d938cf9b0809dade4acf7aba57eaf7ef733bfedc9b2474c4 \
+    --hash=sha256:4598cf03136067000855d6b44d7a1f4f46994164bcd450fb2c3d481afc25dd06 \
+    --hash=sha256:4a453d5e5689de62e5d38edf40af3f17560bfd63c9c5bd228c18c1f99afa155b \
+    --hash=sha256:4f12d13ffbc16e988fa40809cbbd7a8b45bc05ff6ea0ba8e3e41f6f4db3a9e47 \
+    --hash=sha256:634568a3018bc16a83cda28d4f7aed0d803dd5618facb36e977e53b2df868443 \
+    --hash=sha256:65923bc3809524e46fb7eb4d6346552cbb6a1ffc41be748535aa502a2e3d3389 \
+    --hash=sha256:6b0ceb23560f46dd236a8ad4378fc40bad1783e997604ba845e131d6c680963e \
+    --hash=sha256:8c8d6ca19c8497344b810b0b0344f8375af5f6bb9c98bd42e33f747417ab3f57 \
+    --hash=sha256:9ad4fcddcbf5dc67619379782e6aeef41218a79e17979aaed01ed099876c0e62 \
+    --hash=sha256:a254b98dbcc744c723a838c03b74a8a34c0558c9ac5c86d5561703362231107d \
+    --hash=sha256:b03c4338d6d3d299e8ca494194c0ae4f611548da59e3c038813f1a43976cb437 \
+    --hash=sha256:cc1f78ebc982cd0602c9a7615d878396bec94908db67d4ecddca864d049112f2 \
+    --hash=sha256:d6d25c41a009e3c6b7e757338948d0076ee1dd1770d1c09ec131f11946883c54 \
+    --hash=sha256:d84cadd7d7998433334c99fa55bcba0d8b4aeff0edb123b2a1dfcface538e474 \
+    --hash=sha256:e360cb2299028d0b0d0f65a5c5e51fc16a335f1603aa2357c25766c8dab56938 \
+    --hash=sha256:e98d49a5717369d8241d6cf33ecb0ca72deee392414118198a8e5b4c35c56340 \
+    --hash=sha256:ed572470af2438b526ea574ff8f05e7f39b44ac37f712105e57fc4d53a6fb660 \
+    --hash=sha256:f87b39f4d69cf7d7529d7b1098cb712033b17ea7714aed831b95628f483fd012 \
+    --hash=sha256:fa789583fc94a7689b45834453fec095245c7e69c58561dc159b5d5277057e4c \
+    # via pennylane
+semantic-version==2.6 \
+    --hash=sha256:2a4328680073e9b243667b201119772aefc5fc63ae32398d6afafff07c4f54c0 \
+    --hash=sha256:2d06ab7372034bcb8b54f2205370f4aa0643c133b7e6dbd129c5200b83ab394b \
+    # via pennylane
+toml==0.10.2 \
+    --hash=sha256:806143ae5bfb6a3c6e736a764057db0e6a0e05e338b5630894a5f779cabb4f9b \
+    --hash=sha256:b3bda1d108d5dd99f4a20d24d9c348e91c4db7ab1b749200bded2f839ccbe68f \
+    # via pennylane
+torch==1.7.1+cu110 \
+    --hash=sha256:2aa7c4219181e31fae146e5e42e395128214487fc7d016bc263fc60b354d22d6 \
     # via time-series-models (setup.py)
 typing-extensions==3.7.4.3 \
     --hash=sha256:7cb407020f00f7bfc3cb3e7881628838e69d8f3fcab2f64742a5e76b2f841918 \

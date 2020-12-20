@@ -20,6 +20,7 @@ setup(
     url='https://github.com/krypton-unite/time_series_models.git',
     download_url='https://pypi.org/project/time-series-models/',
     install_requires = [
+        'pennylane',
         'torch',
         'numpy==1.19.0'
     ],
