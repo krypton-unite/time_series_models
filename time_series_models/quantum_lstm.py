@@ -5,8 +5,8 @@ import pennylane as qml
 
 class QuantumLSTM(nn.Module):
     def __init__(self, 
-                input_dim, 
-                hidden_dim, 
+                input_dim=1, 
+                hidden_dim=100, 
                 n_qubits=4,
                 n_qlayers=1,
                 batch_first=True,
