@@ -22,7 +22,7 @@ setup(
     install_requires = [
         'pennylane',
         'torch',
-        'numpy==1.19.0'
+        'numpy==1.19.3'
     ],
     extras_require={
         'test': [
