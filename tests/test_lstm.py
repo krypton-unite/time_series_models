@@ -14,7 +14,7 @@ def test_lstm_tsp_fitting():
     if not torch.cuda.is_available():
         pytest.skip("needs a CUDA compatible GPU available to run this test")
     tsp = TimeSeriesPredictor(
-        BenchmarkLSTM(hidden_dim=16),
+        BenchmarkLSTM(hidden_dim=16, initial_forget_gate_bias=1),
         max_epochs=50,
         train_split=None,
         optimizer=torch.optim.Adam
@@ -30,7 +30,7 @@ def test_lstm_tsp_fitting_in_cpu():
     Tests the LSTMTimeSeriesPredictor fitting
     """
     tsp = TimeSeriesPredictor(
-        BenchmarkLSTM(hidden_dim=16),
+        BenchmarkLSTM(hidden_dim=16, initial_forget_gate_bias=1),
         max_epochs=50,
         train_split=None,
         optimizer=torch.optim.Adam,
@@ -49,10 +49,9 @@ def test_lstm_tsp_forecast():
     if not torch.cuda.is_available():
         pytest.skip("needs a CUDA compatible GPU available to run this test")
     tsp = TimeSeriesPredictor(
-        BenchmarkLSTM(hidden_dim=16),
+        BenchmarkLSTM(hidden_dim=16, initial_forget_gate_bias=1),
         max_epochs=1000,
         train_split=None,
-        initial_forget_gate_bias=1,
         optimizer=torch.optim.Adam
     )
 
@@ -80,10 +79,9 @@ def test_lstm_tsp_forecast_in_cpu():
     Tests the LSTMTimeSeriesPredictor forecast
     """
     tsp = TimeSeriesPredictor(
-        BenchmarkLSTM(hidden_dim=16),
+        BenchmarkLSTM(hidden_dim=16, initial_forget_gate_bias=1),
         max_epochs=1000,
         train_split=None,
-        initial_forget_gate_bias=1,
         optimizer=torch.optim.Adam,
         device='cpu'
     )
