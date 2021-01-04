@@ -52,6 +52,7 @@ def test_lstm_tsp_forecast():
         BenchmarkLSTM(hidden_dim=16),
         max_epochs=1000,
         train_split=None,
+        initial_forget_gate_bias=1,
         optimizer=torch.optim.Adam
     )
 
@@ -82,6 +83,7 @@ def test_lstm_tsp_forecast_in_cpu():
         BenchmarkLSTM(hidden_dim=16),
         max_epochs=1000,
         train_split=None,
+        initial_forget_gate_bias=1,
         optimizer=torch.optim.Adam,
         device='cpu'
     )
