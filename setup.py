@@ -27,7 +27,9 @@ setup(
     extras_require={
         'test': [
             'pytest',
-            'pytest-cov'
+            'pytest-cov',
+            'time_series_predictor',
+            'flights_time_series_dataset',
         ],
         'dev': [
             'bumpversion',

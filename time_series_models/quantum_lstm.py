@@ -9,8 +9,9 @@ class QuantumLSTM(nn.Module):
                 hidden_dim=2,
                 output_dim=1, 
                 num_layers=1,
-                batch_first=True):
-        super().__init__()
+                batch_first=True,
+                **kwargs):
+        super().__init__(**kwargs)
         self.input_dim = input_dim
         self.output_dim = output_dim
         self.hidden_dim = hidden_dim
