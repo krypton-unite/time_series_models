@@ -8,7 +8,7 @@ with open('HISTORY.md') as history_file:
 
 setup(
     name='time-series-models',
-    version='0.3.2',
+    version='0.3.3',
     description='Neural netork models for time-series-predictor.',
     long_description_content_type="text/markdown",
     long_description=README + '\n\n' + HISTORY,
