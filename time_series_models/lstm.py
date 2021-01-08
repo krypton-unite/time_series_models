@@ -21,7 +21,7 @@ class BenchmarkLSTM(nn.Module):
         Fully connected layer.
     """
 
-    def __init__(self, input_dim=1, hidden_dim=100, output_dim=1, num_layers=3, bidirectional=False, bias=True, dropout=0, initial_forget_gate_bias = None, **kwargs):
+    def __init__(self, input_dim=1, hidden_dim=100, output_dim=1, num_layers=3, bidirectional=False, bias=True, linear_bias=True, dropout=0, initial_forget_gate_bias = None, **kwargs):
         """Defines LSTM and Linear layers.
 
         Parameters
@@ -52,7 +52,7 @@ class BenchmarkLSTM(nn.Module):
                     n = bias.size(0)
                     start, end = n//4, n//2
                     bias.data[start:end].fill_(initial_forget_gate_bias)
-        self.linear = nn.Linear(hidden_dim, output_dim)
+        self.linear = nn.Linear(hidden_dim, output_dim, bias=linear_bias)
 
     # pylint: disable=arguments-differ
     def forward(self, x):

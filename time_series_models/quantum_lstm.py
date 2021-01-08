@@ -54,11 +54,9 @@ class QuantumLSTM(nn.Module):
         else:
             # for now we ignore the fact that in PyTorch you can stack multiple RNNs
             # so we take only the first elements of the init_states tuple init_states[0][0], init_states[1][0]
-            h_t, c_t = self.init_states
+            h_t, c_t = self.init_states.detach()
             # h_t = h_t[0]
             # c_t = c_t[0]
-            h_t = h_t.detach()
-            c_t = c_t.detach()
 
         hidden_seq = []
         for t in range(seq_length):
@@ -82,5 +80,5 @@ class QuantumLSTM(nn.Module):
             hidden_seq.append(h_t.unsqueeze(0))
         hidden_seq = torch.cat(hidden_seq, dim=0)
         hidden_seq = hidden_seq.transpose(0, 1).contiguous()
-        self.init_states = (h_t, c_t)
+        self.init_states = torch.stack([h_t, c_t])
         return hidden_seq #, (h_t, c_t)
