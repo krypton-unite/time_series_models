@@ -21,8 +21,8 @@ setup(
     download_url='https://pypi.org/project/time-series-models/',
     install_requires = [
         'pennylane',
-        'torch',
-        'numpy==1.19.3'
+        'torch==1.8.0+cu111',
+        'numpy'
     ],
     extras_require={
         'test': [
