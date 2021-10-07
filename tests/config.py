@@ -2,4 +2,4 @@
 Configures tests
 """
 # devices = ['cuda', 'cpu']
-devices = ['cuda']
+devices = ['cuda', 'cpu']
