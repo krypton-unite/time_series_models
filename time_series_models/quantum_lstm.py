@@ -22,7 +22,7 @@ class QuantumLSTM(nn.Module):
         self.VQC = self.getVQC()
         self.clayer_out = torch.nn.Linear(hidden_dim, output_dim)
         self.init_states = None
-        #self.clayer_out = [torch.nn.Linear(hidden_dim, self.output_dim) for _ in range(4)]
+        # self.clayer_out = [torch.nn.Linear(hidden_dim, output_dim) for _ in range(4)]
 
     def getVQC(self):
         dev = qml.device("default.qubit", wires=self.hidden_dim)
@@ -59,6 +59,8 @@ class QuantumLSTM(nn.Module):
             # c_t = c_t[0]
 
         hidden_seq = []
+        clayer_in = self.clayer_in.to(input.device)
+        clayer_out = self.clayer_out.to(input.device)
         for t in range(seq_length):
             # get features from the t-th element in seq, for all entries in the batch
             x_t = input[:, t, :]
@@ -67,12 +69,11 @@ class QuantumLSTM(nn.Module):
             v_t = torch.cat((h_t, x_t), dim=1)
 
             # match qubit dimension
-            y_t = self.clayer_in(v_t)
-
-            f_t = torch.sigmoid(self.clayer_out(self.VQC[0](y_t)))  # forget block
-            i_t = torch.sigmoid(self.clayer_out(self.VQC[1](y_t)))  # input block
-            g_t = torch.tanh(self.clayer_out(self.VQC[2](y_t)))     # update block
-            o_t = torch.sigmoid(self.clayer_out(self.VQC[3](y_t)))  # output block
+            y_t = clayer_in(v_t)
+            f_t = torch.sigmoid(clayer_out(self.VQC[0](y_t).to(input.device)))  # forget block
+            i_t = torch.sigmoid(clayer_out(self.VQC[1](y_t).to(input.device)))  # input block
+            g_t = torch.tanh(clayer_out(self.VQC[2](y_t).to(input.device)))     # update block
+            o_t = torch.sigmoid(clayer_out(self.VQC[3](y_t).to(input.device)))  # output block
 
             c_t = (f_t * c_t) + (i_t * g_t)
             h_t = o_t * torch.tanh(c_t)
